@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Cadastro de Produtos</h2>
+        <form id="produtoForm">
+            <div class="form-group">
+                <label for="produtoId">ID do Produto</label>
+                <input type="text" class="form-control" id="produtoId" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="produtoNome">Nome</label>
+                <input type="text" class="form-control" id="produtoNome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="produtoPreco">Preço</label>
+                <input type="number" class="form-control" id="produtoPreco" step="0.01" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="produtoQuant">Quantidade no Estoque</label>
+                <input type="number" class="form-control" id="produtoQuant" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="produtoDataCriacao">Data de Criação</label>
+                <input type="text" class="form-control" id="produtoDataCriacao" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="btn-cadastrar-produto">Cadastrar
+                Produto</button>
+        </form>
+
+        <a href="index.html" class="btn btn-secondary btn-block mt-3">Voltar</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const produtoId = Math.floor(Math.random() * 900000) + 100000;
+            const dataCriacao = new Date().toLocaleString();
+
+            document.getElementById('produtoId').value = produtoId;
+            document.getElementById('produtoDataCriacao').value = dataCriacao;
+        });
+
+        document.getElementById('produtoForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const produtoId = document.getElementById('produtoId').value;
+            const produtoNome = document.getElementById('produtoNome').value;
+            const produtoPreco = document.getElementById('produtoPreco').value;
+            const produtoQuant = document.getElementById('produtoQuant').value;
+            const dataCriacao = document.getElementById('produtoDataCriacao').value;
+
+            const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+            produtos.push({ produtoId, produtoNome, produtoPreco, produtoQuant, dataCriacao });
+
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+
+            alert('Produto cadastrado com sucesso!');
+            window.location.href = 'listar-produtos.html';
+        });
+    </script>
+</body>
+
+</html>
